@@ -22,7 +22,7 @@ type DatabaseConfig struct {
 // Private
 func (databaseConfig *DatabaseConfig) lazyInit() {
 	databaseConfig.once.Do(func() {
-		host := os.Getenv("POSTGRES_HOST")
+		host := os.Getenv("POSTGRES_HOSTNAME")
 		user := os.Getenv("POSTGRES_USER")
 		password := os.Getenv("POSTGRES_PASSWORD")
 		dbname := os.Getenv("POSTGRES_DB")

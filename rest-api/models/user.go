@@ -14,7 +14,7 @@ type User struct {
 	Username       string             `gorm:"not null;unique"`
 	HashedPassword types.HashedString `gorm:"not null"`
 	Role           types.AuthRole     `gorm:"not null"`
-	ManagedProduct []Product
+	Products       []Product
 }
 
 type DisplayUser struct {
@@ -24,16 +24,16 @@ type DisplayUser struct {
 	Username       string             `json:"username,omitempty"`
 	HashedPassword types.HashedString `json:"-"`
 	Role           types.AuthRole     `json:"role,omitempty"`
-	ManagedProduct []Product          `json:"managed_product,omitempty"`
+	Products       []Product          `json:"managed_product,omitempty"`
 }
 
 func (user User) MarshalJSON() ([]byte, error) {
 	return json.Marshal(&DisplayUser{
-		ID:             user.ID,
-		CreatedAt:      user.CreatedAt,
-		UpdatedAt:      user.UpdatedAt,
-		Username:       user.Username,
-		Role:           user.Role,
-		ManagedProduct: user.ManagedProduct,
+		ID:        user.ID,
+		CreatedAt: user.CreatedAt,
+		UpdatedAt: user.UpdatedAt,
+		Username:  user.Username,
+		Role:      user.Role,
+		Products:  user.Products,
 	})
 }

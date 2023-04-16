@@ -7,11 +7,15 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"dagangan-product-rest-api/middlewares"
+	databaseService "dagangan-product-rest-api/services/database"
 )
 
 func main() {
-	// Configure runtime
+	// Configure Runtime
 	runtime.GOMAXPROCS(runtime.NumCPU())
+
+	// Initialize Database
+	databaseService.DB.GetConnection()
 
 	// Gin Framework
 	engine := gin.Default()
