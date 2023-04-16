@@ -7,8 +7,8 @@ import (
 type AuthRole string
 
 const (
-	Admin AuthRole = "Admin"
-	User  AuthRole = "User"
+	Admin  AuthRole = "admin"
+	Viewer AuthRole = "viewer"
 )
 
 func (authRole *AuthRole) Scan(value interface{}) error {

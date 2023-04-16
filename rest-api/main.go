@@ -1,10 +1,12 @@
 package main
 
 import (
+	"runtime"
+
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
 
-	"runtime"
+	"dagangan-product-rest-api/middlewares"
 )
 
 func main() {
@@ -15,6 +17,7 @@ func main() {
 	engine := gin.Default()
 
 	// Middlewares
+	engine.Use(middlewares.CORSMiddleware())
 	engine.Use(gzip.Gzip(gzip.DefaultCompression))
 
 	// Run App
