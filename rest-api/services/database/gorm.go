@@ -35,7 +35,7 @@ func (database *Database) lazyInit() {
 			panic(err)
 		}
 
-		// Create Type
+		// Migrate Type
 		if err := db.Exec(`
 		DO $$ BEGIN
 			CREATE TYPE auth_role AS ENUM (
