@@ -52,10 +52,25 @@ func SearchProductHandler() gin.HandlerFunc {
 		}
 
 		products := []models.Product{}
-		if err := db.Where("name LIKE ?", "%"+query.Search+"%").Offset((query.Page - 1) * query.Size).Limit(query.Size).Find(&products).Error; err != nil {
-			response.Message = "ERROR: BAD REQUEST"
-			c.AbortWithStatusJSON(http.StatusBadRequest, response)
-			return
+		switch query.Sort {
+		case "desc":
+			if err := db.Where("LOWER(name) LIKE LOWER(?)", "%"+query.Search+"%").Order("price DESC").Offset((query.Page - 1) * query.Size).Limit(query.Size).Find(&products).Error; err != nil {
+				response.Message = "ERROR: BAD REQUEST"
+				c.AbortWithStatusJSON(http.StatusBadRequest, response)
+				return
+			}
+		case "asc":
+			if err := db.Where("LOWER(name) LIKE LOWER(?)", "%"+query.Search+"%").Order("price ASC").Offset((query.Page - 1) * query.Size).Limit(query.Size).Find(&products).Error; err != nil {
+				response.Message = "ERROR: BAD REQUEST"
+				c.AbortWithStatusJSON(http.StatusBadRequest, response)
+				return
+			}
+		default:
+			if err := db.Where("LOWER(name) LIKE LOWER(?)", "%"+query.Search+"%").Offset((query.Page - 1) * query.Size).Limit(query.Size).Find(&products).Error; err != nil {
+				response.Message = "ERROR: BAD REQUEST"
+				c.AbortWithStatusJSON(http.StatusBadRequest, response)
+				return
+			}
 		}
 
 		response.Message = "SUCCESS"

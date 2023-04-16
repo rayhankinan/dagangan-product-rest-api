@@ -2,6 +2,7 @@ package repositories
 
 type SearchProductsQuery struct {
 	Search string `form:"search" field:"search"`
+	Sort   string `form:"sort" field:"sort"`
 	Page   int    `form:"page" field:"page" binding:"required,gt=0"`
 	Size   int    `form:"size" field:"size" binding:"required,gt=0"`
 }
