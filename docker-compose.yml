@@ -2,6 +2,21 @@ version: "3.8"
 
 # Services
 services:
+  # Reverse Proxy
+  proxy:
+    image: nginx:1.23.4
+    container_name: prolearn-proxy
+    restart: always
+    hostname: prolearn-proxy-server
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    networks:
+      - app-network
+
+  # REST API
   rest-api:
     build:
       context: ./rest-api

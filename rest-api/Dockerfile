@@ -5,5 +5,5 @@ WORKDIR /app
 COPY . .
 RUN go mod tidy
 RUN go install -mod=mod github.com/githubnemo/CompileDaemon
-ENTRYPOINT CompileDaemon --build="go build ./src/main.go" --command="./src/main"
+ENTRYPOINT CompileDaemon --build="go build main.go" --command="./main"
 EXPOSE 8080
