@@ -5,9 +5,9 @@ services:
   # Reverse Proxy
   proxy:
     image: nginx:1.23.4
-    container_name: prolearn-proxy
+    container_name: dagangan-product-proxy
     restart: always
-    hostname: prolearn-proxy-server
+    hostname: dagangan-product-server
     ports:
       - "80:80"
       - "443:443"
@@ -23,11 +23,43 @@ services:
       dockerfile: Dockerfile
     container_name: dagangan-product-rest-api
     restart: always
+    environment:
+      APPLICATION_NAME: ${APPLICATION_NAME}
+      LOGIN_EXPIRATION_DURATION: ${LOGIN_EXPIRATION_DURATION}
+      JWT_SIGNATURE_KEY: ${JWT_SIGNATURE_KEY}
+      CACHE_EXPIRATION: ${CACHE_EXPIRATION}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_HOSTNAME: ${POSTGRES_HOSTNAME}
+      POSTGRES_PORT: ${POSTGRES_PORT}
     hostname: dagangan-product-rest-api
     volumes:
       - ./rest-api:/app
     networks:
       - app-network
+    depends_on:
+      - database
+
+  # Database
+  database:
+    image: postgres:15.2
+    container_name: dagangan-product-database
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    hostname: dagangan-product-database-server
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+# Volumes
+volumes:
+  postgres:
+    driver: local
 
 # Networks
 networks:
