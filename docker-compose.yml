@@ -1,0 +1,20 @@
+version: "3.8"
+
+# Services
+services:
+  rest-api:
+    build:
+      context: ./rest-api
+      dockerfile: Dockerfile
+    container_name: dagangan-product-rest-api
+    restart: always
+    hostname: dagangan-product-rest-api
+    volumes:
+      - ./rest-api:/app
+    networks:
+      - app-network
+
+# Networks
+networks:
+  app-network:
+    driver: bridge
